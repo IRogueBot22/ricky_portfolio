@@ -48,7 +48,7 @@ export default function Services() {
                 whileHover={{ x: 6 }}
               >
                 <div className="service-header">
-                  <span className="service-icon">{SVC_ICONS[s.title]}</span>
+                  <span className="service-icon" aria-hidden="true">{SVC_ICONS[s.title]}</span>
                   <h3 className="service-title">{s.title}</h3>
                 </div>
                 <div className="service-divider" />

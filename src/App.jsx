@@ -11,12 +11,14 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <Services />
-      <Experience />
-      <WhyHire />
-      <Tools />
-      <Projects />
+      <main>
+        <Hero />
+        <Services />
+        <Experience />
+        <WhyHire />
+        <Tools />
+        <Projects />
+      </main>
       <Footer />
     </>
   );

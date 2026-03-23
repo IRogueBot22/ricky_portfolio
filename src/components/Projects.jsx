@@ -11,7 +11,16 @@ function GCard({ p, i }) {
       <p className="gcard-title">{p.title}</p>
     </motion.div>
   );
-  return p.link ? <a href={p.link} target="_blank" rel="noreferrer">{card}</a> : card;
+  return p.link ? (
+    <a 
+      href={p.link} 
+      target="_blank" 
+      rel="noreferrer" 
+      aria-label={`View ${p.title} project on external site`}
+    >
+      {card}
+    </a>
+  ) : card;
 }
 
 export default function Projects() {
@@ -47,6 +56,7 @@ export default function Projects() {
                 className="view-btn" 
                 whileHover={{ scale: 1.04 }} 
                 whileTap={{ scale: 0.96 }}
+                aria-label={`View ${p.title} project details`}
               >
                 View Project
               </motion.a>
@@ -62,6 +72,7 @@ export default function Projects() {
           target="_blank" rel="noreferrer"
           className="view-btn"
           whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+          aria-label="View more of my works on Google Drive"
         >
           View my works
         </motion.a>

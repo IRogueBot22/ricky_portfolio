@@ -25,6 +25,7 @@ export default function WhyHire() {
           className="hire-btn" 
           whileHover={{ background: "#1a1a1a", color: "#fff" }} 
           whileTap={{ scale: 0.96 }}
+          aria-label="Hire me - scroll to contact section"
         >
           Hire me
         </motion.a>
