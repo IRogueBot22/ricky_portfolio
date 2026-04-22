@@ -14,9 +14,9 @@ export default function Navbar() {
   return (
     <header>
       <motion.nav
-        initial={{ y: -50, opacity: 0 }}
+        initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         className="navbar"
         aria-label="Main Navigation"
       >

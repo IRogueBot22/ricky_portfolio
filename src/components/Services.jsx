@@ -45,7 +45,6 @@ export default function Services() {
                 className="service-card" 
                 variants={fadeUp} 
                 custom={i} 
-                whileHover={{ x: 6 }}
               >
                 <div className="service-header">
                   <span className="service-icon" aria-hidden="true">{SVC_ICONS[s.title]}</span>

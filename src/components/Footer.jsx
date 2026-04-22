@@ -8,14 +8,14 @@ export default function Footer() {
       <InView id="contact" className="footer-section">
         <motion.h2 className="footer-connect" variants={fadeUp}>Let's Connect</motion.h2>
         <div className="footer-grid">
-          <motion.div className="footer-brand" variants={fadeUp}>
-            <p className="footer-name">Ricky Raj illuri</p>
-            <p className="footer-quote">
+          <div className="footer-brand">
+            <motion.p className="footer-name" variants={fadeUp} custom={1}>Ricky Raj illuri</motion.p>
+            <motion.p className="footer-quote" variants={fadeUp} custom={2}>
               "I design digital experiences that are simple, clear, and visually memorable.
               From interfaces to graphics, my work balances usability, strong typography,
               and a consistent visual voice."
-            </p>
-            <div className="footer-socials">
+            </motion.p>
+            <motion.div className="footer-socials" variants={fadeUp} custom={3}>
               <motion.a
                 href="https://www.instagram.com/rix.designs._"
                 target="_blank"
@@ -36,32 +36,34 @@ export default function Footer() {
               >
                 <Linkedin size={20} />
               </motion.a>
-            </div>
-          </motion.div>
-          <motion.div className="footer-col" variants={fadeUp} custom={1}>
+            </motion.div>
+          </div>
+          <motion.div className="footer-col" variants={fadeUp} custom={4}>
             <p className="footer-col-title">Navigation</p>
             {[
               { label: "Home", href: "#home" },
               { label: "Service", href: "#services" },
               { label: "Resume", href: "/Ricky_illluri_Resume.pdf", external: true },
               { label: "Projects", href: "#projects" }
-            ].map(l => (
-              <a 
+            ].map((l, i) => (
+              <motion.a 
                 key={l.label} 
                 href={l.href} 
+                variants={fadeUp}
+                custom={i + 1}
                 target={l.external ? "_blank" : undefined} 
                 rel={l.external ? "noreferrer" : undefined} 
                 className="footer-link"
                 aria-label={l.external ? `Download ${l.label}` : `Go to ${l.label} section`}
               >
                 {l.label}
-              </a>
+              </motion.a>
             ))}
           </motion.div>
-          <motion.div className="footer-col" variants={fadeUp} custom={2}>
+          <motion.div className="footer-col" variants={fadeUp} custom={5}>
             <p className="footer-col-title">Contact</p>
-            <a href="tel:+917330844997" className="footer-link" aria-label="Call me at +91 7330844997">+91 7330844997</a>
-            <a href="mailto:rickyilluri008@gmail.com" className="footer-link" aria-label="Email me at rickyilluri008@gmail.com">rickyilluri008@gmail.com</a>
+            <motion.a variants={fadeUp} custom={1} href="tel:+917330844997" className="footer-link" aria-label="Call me at +91 7330844997">+91 7330844997</motion.a>
+            <motion.a variants={fadeUp} custom={2} href="mailto:rickyilluri008@gmail.com" className="footer-link" aria-label="Email me at rickyilluri008@gmail.com">rickyilluri008@gmail.com</motion.a>
           </motion.div>
         </div>
       </InView>
