@@ -8,6 +8,7 @@ export const TOOLS = [
   { name: "Premiere Pro", img: A("framer.png") },
   { name: "CapCut", img: "https://framerusercontent.com/images/WJImTxlxgxCYePL4d9WjjjK9aSY.jpg?width=400" },
   { name: "Davinci Resolve", img: "https://framerusercontent.com/images/vxdPAFLOMFrp6Jbu9lYXhtC38E.png?width=1024" },
+  { name: "VN Editor", img: A("vn_app.png") },
 ];
 
 export const GRAPHIC_ROW1 = [

@@ -27,12 +27,6 @@ const SVC_ICONS = {
 export default function Services() {
   return (
     <section id="services" className="services-section">
-      <img 
-        src="/assets/services-bg.png" 
-        alt="" 
-        className="services-bg" 
-        aria-hidden="true" 
-      />
       <div className="services-content">
         <InView className="services-inner">
           <motion.h2 className="section-title" variants={fadeUp}>

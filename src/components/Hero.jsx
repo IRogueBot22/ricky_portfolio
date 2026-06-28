@@ -4,25 +4,15 @@ export default function Hero() {
   return (
     <section id="home" className="hero">
       <motion.div
-        className="hero-title-img-wrap"
-        initial={{ opacity: 0, x: "-100vw" }}
+        initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1, duration: 1.7, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        style={{ color: "#ffffff", textAlign: "left", width: "100%", maxWidth: "600px", marginRight: "auto" }}
       >
-        <img src="/assets/hero.png" alt="Ricky Raj" className="hero-title-img" />
-      </motion.div>
-
-      <motion.div
-        className="hero-img-wrap"
-        initial={{ opacity: 0, x: "100vw" }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.3, duration: 1.7, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <img
-          src="https://framerusercontent.com/images/NToqkty8hspmkn5qNpKQBTkw.png?width=800"
-          alt="Ricky Raj"
-          className="hero-img"
-        />
+        <h1 style={{ fontSize: "4rem", fontWeight: "800", lineHeight: "1.2", margin: 0 }}>
+          Hello, I am<br />
+          <span style={{ color: "#ED8A00" }}>illuri Ricky Raj</span>
+        </h1>
       </motion.div>
     </section>
   );
