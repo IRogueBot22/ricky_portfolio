@@ -1,8 +1,6 @@
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Services from "./components/Services";
+import HeroServicesScroll from "./components/HeroServicesScroll";
 import Experience from "./components/Experience";
-import WhyHire from "./components/WhyHire";
 import Tools from "./components/Tools";
 import Projects from "./components/Projects";
 import Footer from "./components/Footer";
@@ -12,10 +10,8 @@ export default function App() {
     <>
       <Navbar />
       <main>
-        <Hero />
-        <Services />
+        <HeroServicesScroll />
         <Experience />
-        <WhyHire />
         <Tools />
         <Projects />
       </main>

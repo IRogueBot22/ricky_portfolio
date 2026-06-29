@@ -1,56 +1,40 @@
 import { motion } from "framer-motion";
-import InView, { fadeUp } from "./InView";
+import InView, { fadeUp, stagger } from "./InView";
 import { SERVICES } from "../constants/data";
-
-const SVC_ICONS = {
-  "UI/UX Design": (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-    </svg>
-  ),
-  "Graphic Design": (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 19l7-7 3 3-7 7-3-3z"/>
-      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
-      <circle cx="11" cy="11" r="2"/>
-    </svg>
-  ),
-  "Video Editing": (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="23 7 16 12 23 17 23 7"/>
-      <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-    </svg>
-  ),
-};
+import { ChevronUp } from "lucide-react";
 
 export default function Services() {
   return (
     <section id="services" className="services-section">
-      <div className="services-content">
-        <InView className="services-inner">
-          <motion.h2 className="section-title" variants={fadeUp}>
-            My <span className="orange">Services</span>
+      <InView className="services-inner-new">
+        <div className="services-left">
+          <motion.h2 className="services-heading" variants={fadeUp}>
+            WHAT I CAN DO FOR YOU
           </motion.h2>
-          <div className="services-list">
+          <motion.p className="services-subtitle" variants={fadeUp}>
+            As a digital designer, I am a visual storyteller, crafting experiences that connect deeply and spark creativity.
+          </motion.p>
+          <motion.div className="services-accordion" variants={stagger}>
             {SERVICES.map((s, i) => (
-              <motion.div 
-                key={s.title} 
-                className="service-card" 
-                variants={fadeUp} 
-                custom={i} 
-              >
-                <div className="service-header">
-                  <span className="service-icon" aria-hidden="true">{SVC_ICONS[s.title]}</span>
-                  <h3 className="service-title">{s.title}</h3>
-                </div>
-                <div className="service-divider" />
-                <p className="service-desc">{s.desc}</p>
+              <motion.div key={s.title} className="service-row" variants={fadeUp}>
+                <span className="service-row-title">{i + 1}. {s.title.toUpperCase()}</span>
+                <ChevronUp size={24} className="service-row-icon" />
               </motion.div>
             ))}
-          </div>
-        </InView>
-      </div>
+          </motion.div>
+        </div>
+        <div className="services-right" style={{ perspective: "1500px" }}>
+          <motion.div
+            initial={{ rotateY: -180, opacity: 0, scale: 0.8 }}
+            whileInView={{ rotateY: 0, opacity: 1, rotateZ: 6, scale: 1 }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="service-img-wrap"
+          >
+            <img src="/assets/service.jpg" alt="Services" className="service-img" />
+          </motion.div>
+        </div>
+      </InView>
     </section>
   );
 }

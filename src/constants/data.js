@@ -32,7 +32,6 @@ export const UIUX_PROJECTS = [
 export const EXPERIENCE = [
   { company: "InAmigos Foundation", role: "Graphic Design Intern", period: "January 2026 to Present" },
   { company: "CVR Talkies", role: "Graphic Design Lead", period: "August 2025 to Present" },
-  { company: "Coding Jr", role: "Graphic Design Intern", period: "February 2026 to Present" },
 ];
 
 export const SERVICES = [

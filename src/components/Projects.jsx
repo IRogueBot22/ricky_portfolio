@@ -48,7 +48,6 @@ export default function Projects() {
               <p className="uiux-img-title">{p.title}</p>
             </div>
             <div className="uiux-right">
-              <p className="uiux-desc">{p.desc}</p>
               <motion.a 
                 href={p.link} 
                 target="_blank" 

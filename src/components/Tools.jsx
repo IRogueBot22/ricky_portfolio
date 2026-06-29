@@ -5,7 +5,7 @@ import { TOOLS } from "../constants/data";
 export default function Tools() {
   return (
     <InView className="tools-section">
-      <motion.h2 className="tools-title" variants={fadeUp}>Tools used</motion.h2>
+      <motion.h2 className="tools-title" variants={fadeUp}>Tools <span className="orange">I Use</span></motion.h2>
       <motion.div className="tools-row" variants={stagger}>
         {TOOLS.map((t, i) => (
           <motion.div 
@@ -13,8 +13,6 @@ export default function Tools() {
             className="tool-item" 
             variants={fadeUp} 
             custom={i}
-            whileHover={{ scale: 1.1, y: -5 }} 
-            transition={{ type: "spring", stiffness: 260 }}
           >
             <img src={t.img} alt={t.name} className="tool-img" />
             <span className="tool-name">{t.name}</span>
