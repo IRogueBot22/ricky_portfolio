@@ -427,7 +427,7 @@ ul { list-style: none; }
 /* --- Footer --- */
 .footer-section { padding: 120px 18px 60px; max-width: 1400px; margin: 0 auto; border-top: 1px solid var(--border); }
 .footer-connect { font-size: clamp(28px, 4.2vw, 56px); font-weight: 700; margin-bottom: 80px; color: var(--white); }
-.footer-grid    { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 64px; }
+.footer-grid    { display: grid; grid-template-columns: 2fr 1fr; gap: 64px; }
 .footer-name    { font-size: 24px; font-weight: 700; margin-bottom: 16px; font-family: 'Antonio', sans-serif; text-transform: uppercase; letter-spacing: 0.02em; }
 .footer-quote   { color: var(--muted); font-size: 15px; line-height: 1.8; max-width: 400px; margin-bottom: 32px; }
 .footer-socials { display: flex; gap: 16px; }
