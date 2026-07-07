@@ -83,7 +83,7 @@ export default function HeroServicesScroll() {
       <div style={{ position: "relative", zIndex: 5, marginTop: "-100vh" }}>
         
         {/* HERO SECTION */}
-        <section className="hero-layer" style={{ minHeight: "100vh", marginBottom: "25vh", display: "flex", alignItems: "center", justifyContent: "center", overflowX: "clip" }}>
+        <section id="home" className="hero-layer" style={{ minHeight: "100vh", marginBottom: "25vh", display: "flex", alignItems: "center", justifyContent: "center", overflowX: "clip" }}>
           <motion.div 
             className="hero-left"
             initial={{ x: "-50vw", opacity: 0 }}

@@ -1,15 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  
   const links = [
     { label: "Home", href: "#home" },
     { label: "Service", href: "#services" },
     { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
   ];
+
+  useEffect(() => {
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    // Trigger active section when it is in the middle of the viewport
+    const observer = new IntersectionObserver(handleIntersection, {
+      rootMargin: "-45% 0px -45% 0px",
+      threshold: 0
+    });
+
+    const sectionIds = ["home", "services", "projects", "contact"];
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        observer.observe(el);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <header>
@@ -26,7 +54,10 @@ export default function Navbar() {
               <li key={l.label} className="nav-pill-item">
                 <motion.a 
                   href={l.href} 
-                  className={`nav-pill ${l.label === "Home" ? "active" : ""}`}
+                  className={`nav-pill ${activeSection === l.href.replace("#", "") ? "active" : ""}`}
+                  onClick={() => {
+                    setActiveSection(l.href.replace("#", ""));
+                  }}
                   whileHover={{ scale: 1.05 }} 
                   whileTap={{ scale: 0.96 }}
                 >

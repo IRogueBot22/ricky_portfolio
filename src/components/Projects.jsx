@@ -64,8 +64,8 @@ export default function Projects() {
         ))}
       </div>
 
-      <motion.h3 className="sub-heading cyan center" variants={fadeUp} style={{ marginTop: 80 }}>My Edits</motion.h3>
-      <motion.div className="edits-cta" variants={fadeUp} custom={1}>
+      <motion.div className="edits-cta" variants={fadeUp} custom={1} style={{ marginTop: 80 }}>
+        <motion.h3 className="sub-heading" style={{ marginBottom: 0, width: "100%", textAlign: "left" }}>My editing works</motion.h3>
         <motion.a
           href="https://drive.google.com/drive/folders/1FqMTHGMpMR1v0YAuI1NQih2jTVfsyaOf"
           target="_blank" rel="noreferrer"
@@ -75,10 +75,6 @@ export default function Projects() {
         >
           View my works
         </motion.a>
-        <p className="edits-headline">
-          Have an Awesome Project<br />
-          <span className="orange">Idea? Let's Discuss</span>
-        </p>
       </motion.div>
     </InView>
   );

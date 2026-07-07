@@ -17,7 +17,7 @@ export default function Footer() {
             </motion.p>
             <motion.div className="footer-socials" variants={fadeUp} custom={3}>
               <motion.a
-                href="https://www.instagram.com/rix.designs._"
+                href="https://www.instagram.com/iamrickyraj?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noreferrer"
                 className="social-btn"
@@ -40,7 +40,6 @@ export default function Footer() {
           </div>
           <motion.div className="footer-col" variants={fadeUp} custom={4}>
             <p className="footer-col-title">Contact</p>
-            <motion.a variants={fadeUp} custom={1} href="tel:+917330844997" className="footer-link" aria-label="Call me at +91 7330844997">+91 7330844997</motion.a>
             <motion.a variants={fadeUp} custom={2} href="mailto:rickyilluri008@gmail.com" className="footer-link" aria-label="Email me at rickyilluri008@gmail.com">rickyilluri008@gmail.com</motion.a>
           </motion.div>
         </div>
