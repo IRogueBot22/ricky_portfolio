@@ -111,7 +111,7 @@ export default function HeroServicesScroll() {
           <div className="services-left">
             <h2 className="services-heading">WHAT I CAN DO FOR YOU</h2>
             <p className="services-subtitle">
-              As a digital designer, I am a visual storyteller, crafting experiences that connect deeply and spark creativity.
+              As a digital designer, I transform ideas into engaging visual experiences.
             </p>
             <div className="services-accordion">
               {SERVICES.map((s, i) => (

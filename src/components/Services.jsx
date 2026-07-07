@@ -12,7 +12,7 @@ export default function Services() {
             WHAT I CAN DO FOR YOU
           </motion.h2>
           <motion.p className="services-subtitle" variants={fadeUp}>
-            As a digital designer, I am a visual storyteller, crafting experiences that connect deeply and spark creativity.
+            As a digital designer, I transform ideas into engaging visual experiences.
           </motion.p>
           <motion.div className="services-accordion" variants={stagger}>
             {SERVICES.map((s, i) => (
