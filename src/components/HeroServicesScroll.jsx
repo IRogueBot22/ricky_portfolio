@@ -1,11 +1,65 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { SERVICES } from "../constants/data";
 import { ChevronUp } from "lucide-react";
+
+// Custom brief with spring slide-up typographic animation
+const ServiceBrief = ({ text }) => {
+  const words = text.split(" ");
+  
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.04,
+      }
+    }
+  };
+  
+  const wordVariants = {
+    hidden: { 
+      y: "100%",
+      rotate: 6
+    },
+    visible: { 
+      y: 0,
+      rotate: 0,
+      transition: {
+        type: "spring",
+        stiffness: 150,
+        damping: 14,
+      }
+    }
+  };
+
+  return (
+    <motion.p 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      style={{ display: "flex", flexWrap: "wrap", gap: "0.25em", margin: 0, overflow: "hidden" }}
+    >
+      {words.map((word, idx) => (
+        <span 
+          key={idx} 
+          style={{ display: "inline-block", overflow: "hidden", paddingBottom: "2px" }}
+        >
+          <motion.span 
+            variants={wordVariants}
+            style={{ display: "inline-block", originX: 0, originY: 1 }}
+          >
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </motion.p>
+  );
+};
 
 export default function HeroServicesScroll() {
   const containerRef = useRef(null);
   const [isDesktop, setIsDesktop] = useState(true);
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth > 960);
@@ -114,12 +168,52 @@ export default function HeroServicesScroll() {
               As a digital designer, I transform ideas into engaging visual experiences.
             </p>
             <div className="services-accordion">
-              {SERVICES.map((s, i) => (
-                <div key={s.title} className="service-row">
-                  <span className="service-row-title">{i + 1}. {s.title.toUpperCase()}</span>
-                  <ChevronUp size={24} className="service-row-icon" />
-                </div>
-              ))}
+              {SERVICES.map((s, i) => {
+                const isOpen = expandedIndex === i;
+                return (
+                  <div 
+                    key={s.title} 
+                    className="service-item-wrapper" 
+                    style={{ borderBottom: "1px solid var(--border)" }}
+                  >
+                    <div 
+                      className="service-row" 
+                      onClick={() => setExpandedIndex(isOpen ? null : i)}
+                      style={{ borderBottom: "none", padding: "28px 0" }}
+                    >
+                      <span className="service-row-title">{i + 1}. {s.title.toUpperCase()}</span>
+                      <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
+                        <ChevronUp size={24} className="service-row-icon" />
+                      </motion.div>
+                    </div>
+                    
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          key="content"
+                          initial="collapsed"
+                          animate="open"
+                          exit="collapsed"
+                          variants={{
+                            open: { height: "auto", opacity: 1, marginBottom: 24 },
+                            collapsed: { height: 0, opacity: 0, marginBottom: 0 }
+                          }}
+                          transition={{ duration: 0.35, ease: [0.04, 0.62, 0.23, 0.98] }}
+                          style={{ overflow: "hidden" }}
+                        >
+                          <div className="service-brief-container" style={{ color: "var(--muted)", fontSize: "clamp(13px, 1.6vw, 16px)", lineHeight: "1.7", maxWidth: "600px" }}>
+                            <ServiceBrief text={s.desc} />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="services-right-spacer"></div>

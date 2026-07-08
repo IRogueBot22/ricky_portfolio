@@ -35,7 +35,35 @@ export const EXPERIENCE = [
 ];
 
 export const SERVICES = [
-  { title: "UI/UX Design", desc: "Designing user-centric digital products that translate business goals into polished interfaces, boosting engagement and satisfaction across web and mobile." },
-  { title: "Graphic Design", desc: "Crafting visually striking, cohesive brand assets—logos, social posts, posters—that capture attention, communicate clearly, and align with your identity across print and digital." },
-  { title: "Video Editing", desc: "Editing impactful videos with clean cuts, smooth transitions, and music sync that hook viewers fast and hold attention, optimized for reels, shorts, and promos in your brand tone." },
+  { title: "UI/UX Design", desc: "Designing interfaces that are as beautiful as they are functional — turning business goals into intuitive digital experiences that users love and metrics reflect." },
+  { title: "Graphic Design", desc: "Building bold, cohesive visual identities — logos, social creatives, posters — that make brands instantly recognizable and unmistakably yours, across every surface." },
+  { title: "Video Editing", desc: "Crafting fast-paced, high-retention edits — sharp cuts, seamless transitions, and music that hits on beat — built to stop the scroll on reels, shorts, and promos." },
+];
+
+export const DESIGN_PROCESS = [
+  {
+    title: "Discovery",
+    desc: "Uncovering the real problem before jumping to solutions. Digging into goals, audience, and context to understand the \"why\" behind the ask.",
+    icon: "🔍",
+  },
+  {
+    title: "Explore & Structure",
+    desc: "Mapping out the bones before the beauty. Low-fidelity sketches, moodboards, and structural drafts test direction and flow early.",
+    icon: "🧩",
+  },
+  {
+    title: "Craft",
+    desc: "Bringing the concept to life with intention. Every visual — interface, brand asset, or frame — is crafted to align with brand identity.",
+    icon: "🎨",
+  },
+  {
+    title: "Refine",
+    desc: "Great work gets sharper with feedback. Refining details and decisions until the output is the best possible version of itself.",
+    icon: "✨",
+  },
+  {
+    title: "Launch",
+    desc: "Delivery is more than dropping off files. Organized assets, export-ready formats, and clear documentation for an effortless transition.",
+    icon: "🚀",
+  },
 ];
