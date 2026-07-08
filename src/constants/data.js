@@ -48,7 +48,7 @@ export const DESIGN_PROCESS = [
   },
   {
     title: "Explore & Structure",
-    desc: "Mapping out the bones before the beauty. Low-fidelity sketches, moodboards, and structural drafts test direction and flow early.",
+    desc: "Creating clarity before creativity. I organize ideas into wireframes, layouts, and visual directions to establish a strong structure before adding the final layer of design.",
     icon: "🧩",
   },
   {
@@ -58,12 +58,12 @@ export const DESIGN_PROCESS = [
   },
   {
     title: "Refine",
-    desc: "Great work gets sharper with feedback. Refining details and decisions until the output is the best possible version of itself.",
+    desc: "Great work gets sharper with feedback. Refining details and decisions until the output is in the best possible version of itself.",
     icon: "✨",
   },
   {
     title: "Launch",
-    desc: "Delivery is more than dropping off files. Organized assets, export-ready formats, and clear documentation for an effortless transition.",
+    desc: "Every asset is refined, organized, and prepared for production. Clear documentation and structured files to make implementation effortless.",
     icon: "🚀",
   },
 ];
