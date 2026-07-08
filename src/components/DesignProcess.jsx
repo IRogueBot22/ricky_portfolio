@@ -1,16 +1,17 @@
-﻿import { useRef, useState, useEffect } from "react";
+﻿import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { DESIGN_PROCESS } from "../constants/data";
 
-// Waypoint percentages along the path for each step (aligns with the extrema of the curve)
-const WAYPOINTS = [0.14, 0.28, 0.43, 0.57, 0.71];
-
 export default function DesignProcess() {
   const sectionRef = useRef(null);
+  const containerRef = useRef(null);
   const pathRef = useRef(null);
+  const cardRefs = useRef([]);
+
   const [pathLength, setPathLength] = useState(0);
   const [activeStep, setActiveStep] = useState(-1);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [dimensions, setDimensions] = useState({ width: 1000, heights: Array(DESIGN_PROCESS.length).fill(0) });
 
   // Check prefers-reduced-motion
   useEffect(() => {
@@ -21,12 +22,84 @@ export default function DesignProcess() {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Measure path length on mount
+  // Measure container width and card heights dynamically
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
+    
+    const updateDimensions = () => {
+      const width = containerRef.current.offsetWidth;
+      const heights = cardRefs.current.map(el => el ? el.offsetHeight : 0);
+      setDimensions({ width, heights });
+    };
+
+    updateDimensions();
+    
+    const observer = new ResizeObserver(updateDimensions);
+    observer.observe(containerRef.current);
+    cardRefs.current.forEach(el => {
+      if (el) observer.observe(el);
+    });
+    
+    return () => observer.disconnect();
+  }, []);
+
+  // Compute Layout to guarantee EXACTLY a 10px vertical gap between the bottom of one card and the top of the next
+  const gap = 10;
+  let currentY = 0;
+  const cardPositions = dimensions.heights.map(h => {
+    const top = currentY;
+    const center = top + h / 2;
+    currentY += h + gap;
+    return { top, center, height: h };
+  });
+  
+  const totalHeight = Math.max(currentY + 100, 400); // 100px padding at bottom
+
+  // Generate dynamic SVG path in absolute DOM pixels that matches the exact shape of the original S-curve
+  const svgWidth = dimensions.width || 1000;
+  // Use exactly 30% and 70% to match the safe zones so the path NEVER overlaps the cards
+  const leftX = svgWidth * 0.3;
+  const rightX = svgWidth * 0.7;
+  const startX = svgWidth / 2;
+
+  const wayPointPositions = [];
+  let svgPath = `M ${startX} 0`;
+  
+  cardPositions.forEach((pos, i) => {
+    if (pos.height === 0) return;
+    // Dot on right for card 0, left for card 1, to match the safe zones
+    const isLeft = i % 2 !== 0;
+    const dotX = isLeft ? leftX : rightX;
+    const dotY = pos.center;
+    wayPointPositions.push({ x: dotX, y: dotY });
+    
+    if (i === 0) {
+      const cpY = dotY * 0.6;
+      svgPath += ` C ${startX} ${cpY}, ${dotX} ${cpY}, ${dotX} ${dotY}`;
+    } else {
+      const prevDot = wayPointPositions[i - 1];
+      // Use 0.4 and 0.6 bezier points to mathematically replicate the beautiful S-curve belly of the original design
+      const cp1Y = prevDot.y + 0.4 * (dotY - prevDot.y);
+      const cp2Y = prevDot.y + 0.6 * (dotY - prevDot.y);
+      svgPath += ` C ${prevDot.x} ${cp1Y}, ${dotX} ${cp2Y}, ${dotX} ${dotY}`;
+    }
+  });
+  
+  if (wayPointPositions.length > 0) {
+    const lastDot = wayPointPositions[wayPointPositions.length - 1];
+    const cpY1 = lastDot.y + 0.4 * (totalHeight - lastDot.y);
+    const cpY2 = lastDot.y + 0.6 * (totalHeight - lastDot.y);
+    svgPath += ` C ${lastDot.x} ${cpY1}, ${startX} ${cpY2}, ${startX} ${totalHeight}`;
+  } else {
+    svgPath = `M ${startX} 0 L ${startX} ${totalHeight}`;
+  }
+
+  // Update path length dynamically
   useEffect(() => {
     if (pathRef.current) {
       setPathLength(pathRef.current.getTotalLength());
     }
-  }, []);
+  }, [svgPath, dimensions]);
 
   // Scroll tracking
   const { scrollYProgress } = useScroll({
@@ -34,42 +107,24 @@ export default function DesignProcess() {
     offset: ["start end", "end start"],
   });
 
-  // Stroke dashoffset drives the "trail" effect
   const dashOffset = useTransform(scrollYProgress, [0.1, 0.9], [pathLength, 0]);
 
-  // Track active step
+  // Track active step for the orange glowing trail effect
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    if (!pathRef.current || pathLength === 0 || prefersReducedMotion) return;
-
+    if (prefersReducedMotion || totalHeight === 0) return;
+    
     const progress = Math.min(Math.max((v - 0.1) / 0.8, 0), 1);
+    const currentScrollY = progress * totalHeight;
 
-    // Determine active step
     let newActive = -1;
-    for (let i = WAYPOINTS.length - 1; i >= 0; i--) {
-      if (progress >= WAYPOINTS[i] - 0.05) {
+    for (let i = cardPositions.length - 1; i >= 0; i--) {
+      if (currentScrollY >= cardPositions[i].top - 60) {
         newActive = i;
         break;
       }
     }
     setActiveStep(newActive);
   });
-
-  // Compute waypoint pixel positions for card placement
-  const [wayPointPositions, setWayPointPositions] = useState([]);
-  useEffect(() => {
-    if (pathRef.current && pathLength > 0) {
-      const positions = WAYPOINTS.map((wp) => {
-        const pt = pathRef.current.getPointAtLength(wp * pathLength);
-        return { x: pt.x, y: pt.y };
-      });
-      setWayPointPositions(positions);
-    }
-  }, [pathLength]);
-
-  // The fixed S-curve path, widened viewBox to 1000 so the path is strictly in the middle (300 to 700)
-  // This allows the cards to be placed in the safe zones (0-300 and 700-1000) without overlapping the path.
-  const svgPath =
-    "M 500 0 C 500 80, 700 120, 700 200 S 300 320, 300 400 S 700 520, 700 600 S 300 720, 300 800 S 700 920, 700 1000 S 300 1120, 300 1200 S 500 1320, 500 1400";
 
   const isReduced = prefersReducedMotion;
 
@@ -97,12 +152,17 @@ export default function DesignProcess() {
         </motion.p>
       </div>
 
-      <div className="dp-path-container">
+      <div 
+        className="dp-path-container" 
+        ref={containerRef} 
+        style={{ height: `${totalHeight}px`, position: "relative" }}
+      >
         {/* SVG winding path */}
         <svg
           className="dp-svg"
-          viewBox="0 0 1000 1400"
-          preserveAspectRatio="xMidYMid meet"
+          viewBox={`0 0 ${svgWidth} ${totalHeight}`}
+          preserveAspectRatio="none"
+          style={{ width: "100%", height: "100%", position: "absolute", top: 0, left: 0 }}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -177,25 +237,22 @@ export default function DesignProcess() {
         {/* Step cards */}
         <div className="dp-cards-overlay">
           {DESIGN_PROCESS.map((step, i) => {
-            // i=0 -> dot is at x=700 (right), so card must be on the RIGHT
-            // i=1 -> dot is at x=300 (left), so card must be on the LEFT
-            const isLeft = i % 2 !== 0; 
+            const isLeft = i % 2 !== 0;
             const isActive = activeStep >= i || isReduced;
-            const wpY = wayPointPositions[i]
-              ? (wayPointPositions[i].y / 1400) * 100
-              : (WAYPOINTS[i] * 100);
+            const pos = cardPositions[i];
+            
+            // Due to CSS transform: translateY(-50%), top needs to be set to the card`s vertical center
+            const centerTop = pos ? `${pos.center}px` : "0px";
 
             return (
               <motion.div
                 key={step.title}
+                ref={(el) => (cardRefs.current[i] = el)}
                 className={`dp-step-card ${isLeft ? "dp-card-left" : "dp-card-right"} ${isActive ? "active" : ""}`}
-                style={{ top: `${wpY}%` }}
+                style={{ top: centerTop }}
                 initial={isReduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                animate={
-                  isActive
-                    ? { opacity: 1, y: 0 }
-                    : { opacity: 0, y: 40 }
-                }
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, margin: "-100px" }}
                 transition={{
                   duration: 0.5,
                   ease: [0.22, 1, 0.36, 1],
